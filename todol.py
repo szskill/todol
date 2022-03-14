@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sys
+from typing import Any, Iterable
 
 
 class Todo:
@@ -28,9 +29,9 @@ class Todo:
 
             todos: dict[str, bool] = {}
             for line_num, line in enumerate(content.splitlines()):
-                if line.isspace() or line == '':
+                if line.isspace() or line == "":
                     continue
-                
+
                 # Just for convenience
                 line_num += 1
 
@@ -48,13 +49,31 @@ class Todo:
             return Todo(todos)
 
 
+def index_with_default_value(iterable: Iterable, index: int, default_value: Any):
+    """Gets the value at the index of the specified iterable, but if it's not
+    possible then it falls back to the default value.
+    """
+
+    value = None
+    if index < len(iterable):
+        value = iterable[index]
+    else:
+        value = default_value
+
+    return value
+
+
 if __name__ == "__main__":
-    path = sys.argv[1] if len(sys.argv) > 1 else 'TODO'
-    output_language = sys.argv[2] if len(sys.argv) > 2 else 'json'
+    path = index_with_default_value(sys.argv, 1, "TODO")
+    output_language = index_with_default_value(sys.argv, 2, "json")
 
-    todo = Todo.from_file(path)
+    try:
+        todo = Todo.from_file(path)
+    except FileNotFoundError:
+        print(f'The file "{path}" does not exist.')
+        exit(1)
 
-    if output_language == 'json':
+    if output_language == "json":
         print(todo.to_json())
     else:
         print(f'Invalid language "{output_language}"')
