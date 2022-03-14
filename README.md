@@ -1,7 +1,9 @@
 # TodoL
+
 ## A language for TODOs.
 
 ### Example syntax
+
 ```todol
 [x] Make cake
 [x] Decorate house
@@ -10,6 +12,7 @@
 ```
 
 ### Running
+
 ```sh
 # Parse a TodoL file into JSON
 todol
