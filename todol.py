@@ -1,3 +1,6 @@
+# TodoL is licensed under the MIT license
+# https://github.com/szskill/todol
+
 from __future__ import annotations
 
 import json
