@@ -35,8 +35,14 @@ class Todo:
                 if line.isspace() or line == "":
                     continue
 
-                # Just for convenience
+                # Just for convenience in error messages
                 line_num += 1
+
+                if not line.startswith("[x]") or not line.startswith("[ ]"):
+                    print(
+                        f"{path}, line {line_num}: Line does not start with [x] or [ ]"
+                    )
+                    sys.exit(1)
 
                 tokens = line.split()
                 state = tokens[0] == "[x]"
@@ -74,10 +80,10 @@ if __name__ == "__main__":
         todo = Todo.from_file(path)
     except FileNotFoundError:
         print(f'The file "{path}" does not exist.')
-        exit(1)
+        sys.exit(1)
 
     if output_language == "json":
         print(todo.to_json())
     else:
         print(f'Invalid language "{output_language}"')
-        exit(1)
+        sys.exit(1)
